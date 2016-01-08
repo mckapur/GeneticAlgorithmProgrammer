@@ -32,7 +32,8 @@ class ChromosomePopulation {
         bool static compareChromosomeOnFitness(const Chromosome& a, const Chromosome& b) { // Compare two chromosomes based on their fitness (smaller fitness gets beats greater fitness)
             return a.fitness < b.fitness;
         }
-        void randomlyFillPopulation(); // Fills the memberPool (population) with randomly generated chromosomes 
+        void killExcessPopulation(); // Kills the least fittest members in the memberPool (population) to fit the set constant population size
+        void randomlyFillPopulation(); // Fills the memberPool (population) with randomly generated chromosomes
         void computeMemberFitnesses(); // Compute the fitness score for each chromosome in the member population pool
         void sortMembersByFitness(); // The natural selection process involves sorting members by their fitness, killing unfit chromosomes, and evolving
         void performNaturalSelection(); // The natural selection process involves sorting members by their fitness, killing unfit chromosomes, and evolving
@@ -45,7 +46,7 @@ class ChromosomePopulation {
         ChromosomePopulation(); // Default initializer
         ChromosomePopulation(std::vector<Chromosome> _memberPool, std::string _goal); // Initializer in which you specify the pool's initial members (may be empty) and goal
     
-        void beginEvolution(); // Begin evolution by initiating first round of natural selection
+        Chromosome evolve(); // Begin evolution by initiating first round of natural selection, return optimum chromosome
 };
 
 #endif /* ChrosomePopulation_cpp */

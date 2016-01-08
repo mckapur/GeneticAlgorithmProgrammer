@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4604A2D51BF5BD2900D87E4C /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4604A2D31BF5BD2900D87E4C /* Memory.cpp */; };
+		4604A2DE1BF5BE9900D87E4C /* BrainUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4604A2DC1BF5BE9900D87E4C /* BrainUnit.cpp */; };
 		46A9CE421BC7A86200AD5FBE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46A9CE411BC7A86200AD5FBE /* main.cpp */; };
 		46E6850F1BE06DC7003B9633 /* Chromosome.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46E6850D1BE06DC7003B9633 /* Chromosome.cpp */; };
 		46E685121BE06E4A003B9633 /* FitnessHeuristic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46E685101BE06E4A003B9633 /* FitnessHeuristic.cpp */; };
@@ -28,6 +30,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4604A2D21BF5B79600D87E4C /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		4604A2D31BF5BD2900D87E4C /* Memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
+		4604A2D41BF5BD2900D87E4C /* Memory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Memory.hpp; sourceTree = "<group>"; };
+		4604A2DC1BF5BE9900D87E4C /* BrainUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainUnit.cpp; sourceTree = "<group>"; };
+		4604A2DD1BF5BE9900D87E4C /* BrainUnit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BrainUnit.hpp; sourceTree = "<group>"; };
 		46A9CE3E1BC7A86200AD5FBE /* GeneticAlgorithmProgrammer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GeneticAlgorithmProgrammer; sourceTree = BUILT_PRODUCTS_DIR; };
 		46A9CE411BC7A86200AD5FBE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		46E6850D1BE06DC7003B9633 /* Chromosome.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Chromosome.cpp; sourceTree = "<group>"; };
@@ -45,7 +52,6 @@
 		46FF3D941BE232CA0022FC5D /* StringToStringMAE.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StringToStringMAE.hpp; sourceTree = "<group>"; };
 		46FF3D951BE23F1A0022FC5D /* StringToStringRMSE.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StringToStringRMSE.hpp; sourceTree = "<group>"; };
 		46FF3D971BE242930022FC5D /* StringToStringSE.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StringToStringSE.hpp; sourceTree = "<group>"; };
-		46FF3D9D1BE2E3B00022FC5D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4604A2D11BF5B79600D87E4C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4604A2D21BF5B79600D87E4C /* Constants.h */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		46A9CE351BC7A86200AD5FBE = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +94,7 @@
 			children = (
 				46E685091BDF37FA003B9633 /* Brain */,
 				46E6850A1BDF37FA003B9633 /* Evolution */,
+				4604A2D11BF5B79600D87E4C /* Helpers */,
 				46A9CE411BC7A86200AD5FBE /* main.cpp */,
 			);
 			path = GeneticAlgorithmProgrammer;
@@ -88,6 +103,10 @@
 		46E685091BDF37FA003B9633 /* Brain */ = {
 			isa = PBXGroup;
 			children = (
+				4604A2D41BF5BD2900D87E4C /* Memory.hpp */,
+				4604A2D31BF5BD2900D87E4C /* Memory.cpp */,
+				4604A2DD1BF5BE9900D87E4C /* BrainUnit.hpp */,
+				4604A2DC1BF5BE9900D87E4C /* BrainUnit.cpp */,
 			);
 			path = Brain;
 			sourceTree = "<group>";
@@ -104,7 +123,6 @@
 				46E6850D1BE06DC7003B9633 /* Chromosome.cpp */,
 				46E6851D1BE0E4BF003B9633 /* ChromosomePopulation.hpp */,
 				46E6851C1BE0E4BF003B9633 /* ChromosomePopulation.cpp */,
-				46FF3D9C1BE2E3B00022FC5D /* Helpers */,
 				46E6850B1BDF37FA003B9633 /* Execution */,
 			);
 			path = Evolution;
@@ -130,14 +148,6 @@
 				46FF3D951BE23F1A0022FC5D /* StringToStringRMSE.hpp */,
 			);
 			path = "Fitness Functions";
-			sourceTree = "<group>";
-		};
-		46FF3D9C1BE2E3B00022FC5D /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				46FF3D9D1BE2E3B00022FC5D /* Constants.h */,
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,10 +208,12 @@
 			files = (
 				46E6851E1BE0E4BF003B9633 /* ChromosomePopulation.cpp in Sources */,
 				46E685121BE06E4A003B9633 /* FitnessHeuristic.cpp in Sources */,
+				4604A2D51BF5BD2900D87E4C /* Memory.cpp in Sources */,
 				46E685211BE0E5B0003B9633 /* Interpreter.cpp in Sources */,
 				46A9CE421BC7A86200AD5FBE /* main.cpp in Sources */,
 				46E6851B1BE0E4AC003B9633 /* ChromosomePopulationProcesses.cpp in Sources */,
 				46E6850F1BE06DC7003B9633 /* Chromosome.cpp in Sources */,
+				4604A2DE1BF5BE9900D87E4C /* BrainUnit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

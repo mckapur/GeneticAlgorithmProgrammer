@@ -45,16 +45,18 @@ Chromosome ChromosomePopulationProcesses::randomlyMutateChromosome(Chromosome ch
     randomState = ((double)rand()/(RAND_MAX)); // Reassign for next random interactions
     std::string genome = chromosome.genome;
     // TODO: Look over the accuracy of this code, and look over if addition/subtraction is a good idea
-    if (randomState <= constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY) { // Add a character
+    if (randomState <= constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY) // Add a character
+        genome.push_back(rand() % 96 + 32); // Correct ASCII range
+    else if (randomState <= constants::POPULATION_POOL_MUTATE_INSERTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY) { // Insertion of a character
         if (genome.size() < 2)
             genome.push_back(rand() % 96 + 32); // Correct ASCII range
         else
-            genome.push_back(genome[rand() % genome.size()]); // Mutation-by-addition replicates a random character
+            genome.insert(genome.begin() + rand() % genome.size(), genome[rand() % genome.size()]); // Mutation-by-insertion replicates a random character in the string and adds it at a random position in the genome
     }
-    else if (randomState <= constants::POPULATION_POOL_MUTATE_SUBTRACTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY && genome.size()) { // Remove a character
+    else if (randomState <= constants::POPULATION_POOL_MUTATE_SUBTRACTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_INSERTION_PROBABILITY && genome.size()) { // Remove a character
         genome.erase(rand() % genome.size(), 1);
     }
-    else if (randomState >= constants::POPULATION_POOL_MUTATE_SUBTRACTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY && genome.size()) { // Modify a character
+    else if (randomState >= constants::POPULATION_POOL_MUTATE_SUBTRACTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_INSERTION_PROBABILITY && genome.size()) { // Modify a character
         int randomIndex = rand() % genome.size();
         double directionProbability = ((double)rand()/(RAND_MAX));
         int direction = 1;

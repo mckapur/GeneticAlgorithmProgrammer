@@ -23,7 +23,7 @@ std::string Interpreter::outputFromProgram(std::string program) {
     bool bracketOpen = false;
     int plusCounter = 0;
     for (int i = 0; i < program.size(); i++) {
-        if (program[i] == '[') {
+        if (program[i] == '(') {
             if (bracketOpen)
                 break;
             else {
@@ -31,7 +31,7 @@ std::string Interpreter::outputFromProgram(std::string program) {
                 plusCounter = 0;
             }
         }
-        else if (program[i] == ']') {
+        else if (program[i] == ')') {
             if (bracketOpen) {
                 bracketOpen = false;
                 output.push_back((char)(plusCounter));
@@ -45,6 +45,9 @@ std::string Interpreter::outputFromProgram(std::string program) {
             else
                 break;
         }
+        else {
+//            break;
+        }
     }
-    return output; // Identity function interpreter by default
+    return output;
 }

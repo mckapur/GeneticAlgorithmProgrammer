@@ -20,6 +20,19 @@ void ChromosomePopulation::randomlyFillPopulation() {
         memberPool.push_back(ChromosomePopulationProcesses::generateRandomChromosome((int)goal.length()));
 }
 
+void ChromosomePopulation::killExcessPopulation() {
+    sortMembersByFitness();
+    unsigned long size = memberPool.size();
+    for (unsigned long i = size; i--;) {
+        if (i >= constants::CHROMOSOME_POPULATION_POOL_SIZE) { // Need to retain diversity
+            unsigned long iteration = memberPool.size() / 10 + rand() % (memberPool.size() / 10);
+            memberPool.erase(memberPool.begin() + (iteration - 2), memberPool.begin() + (iteration - 1)); // TODO: Double check
+        }
+        else
+            break;
+    }
+}
+
 ChromosomePopulation::ChromosomePopulation() {
     generationIndex = 0;
     goalReached = false;
@@ -59,8 +72,9 @@ void ChromosomePopulation::sortMembersByFitness() {
     std::sort(std::begin(memberPool), std::end(memberPool), compareChromosomeOnFitness);
 }
 
-void ChromosomePopulation::beginEvolution() {
+Chromosome ChromosomePopulation::evolve() {
     performNaturalSelection();
+    return memberPool[0];
 }
 
 /**
@@ -96,21 +110,25 @@ void ChromosomePopulation::performNaturalSelection() {
         competitorsAndSurvivors.insert(competitorsAndSurvivors.end(), competitors.begin(), competitors.end());
         for (int i = 0; i < numberSurvived - 1; i++) {
             double randomValue = ((double)random()/(RAND_MAX));
-            std::vector<Chromosome> children = ChromosomePopulationProcesses::mateChromosomes(memberPool[i], memberPool[(int)(randomValue*numberSurvived)]);
-            newMemberPool.insert(newMemberPool.end(), children.begin(), children.end());
-        }
-        for (int i = 0; i < (numberSurvived + numberCompeting) - 1; i++) {
-            double randomValue = ((double)random()/(RAND_MAX));
             if (randomValue <= constants::CHROMOSOME_POPULATION_MATE_PROBABILITY) { // Idea of competition due to probability here
-                std::vector<Chromosome> children = ChromosomePopulationProcesses::mateChromosomes(competitorsAndSurvivors[i], competitorsAndSurvivors[(int)(randomValue*competitors.size())]);
+                std::vector<Chromosome> children = ChromosomePopulationProcesses::mateChromosomes(newMemberPool[i], newMemberPool[(int)(randomValue*newMemberPool.size())]);
                 newMemberPool.insert(newMemberPool.end(), children.begin(), children.end());
             }
         }
+        for (int i = 0; i < numberCompeting - 1; i++) {
+            double randomValue = ((double)random()/(RAND_MAX));
+            if (randomValue <= constants::CHROMOSOME_POPULATION_MATE_PROBABILITY) { // Idea of competition due to probability here
+                std::vector<Chromosome> children = ChromosomePopulationProcesses::mateChromosomes(competitors[i], competitorsAndSurvivors[(int)(randomValue*competitorsAndSurvivors.size())]);
+                newMemberPool.insert(newMemberPool.end(), children.begin(), children.end());
+            }
+        }
+        for (int i = 0; i < newMemberPool.size(); i++)
+            newMemberPool[i] = ChromosomePopulationProcesses::randomlyMutateChromosome(newMemberPool[i]);
         memberPool = newMemberPool;
-        for (int i = 0; i < memberPool.size(); i++)
-            memberPool[i] = ChromosomePopulationProcesses::randomlyMutateChromosome(memberPool[i]);
+        killExcessPopulation();
         randomlyFillPopulation();
     }
+    sortMembersByFitness();
 }
 
 bool ChromosomePopulation::advanceGeneration() {
@@ -127,6 +145,6 @@ bool ChromosomePopulation::advanceGeneration() {
         std::cout << "Terminating: max. number of evolutions reached.\n";
     }
     if (constants::IS_DEBUGGING_MODE)
-        std::cout << "======================\n" << "Generation Index: " << generationIndex << "\nLowest Fitness: " << memberPool[0].fitness << "\nBest Genome: " << memberPool[0].genome << "\nRespective Output: " << memberPool[0].output << "\n";
+        std::cout << "======================\n" << "Generation Index: " << generationIndex << "\nLowest Fitness: " << memberPool[0].fitness << "\nBest Genome: " << memberPool[0].genome << "\nRespective Output: " << memberPool[0].output << "\n" << memberPool.size() << " Members\n";
     return shouldAdvance;
 }

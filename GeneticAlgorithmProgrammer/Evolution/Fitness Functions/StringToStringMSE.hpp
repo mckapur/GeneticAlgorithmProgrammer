@@ -51,6 +51,7 @@ class StringToStringMSE : public StringToStringFitnessFunction {
                     sum += pow((int)string2[i], 2);
             }
             double cost = ((double)sum)/(2*comparisonSize);
+            cost *= fabs(string1.size() - string2.size());
             return cost;
         }
 };
