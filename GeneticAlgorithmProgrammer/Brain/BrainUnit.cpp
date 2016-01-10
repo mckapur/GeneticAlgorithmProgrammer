@@ -19,7 +19,8 @@ std::string BRAIN_UNIT_SAVE_FILE_PATH = "/Users/rohankapur/Library/GA_BrainUnit_
 #pragma mark - Init
 
 BrainUnit::BrainUnit() {
-    load();
+    if (constants::IS_PERSISTANCE_MODE)
+        load();
     printMemories();
 }
 
@@ -66,6 +67,7 @@ bool static compareMemoriesOnSimilarityAndFoundationIndex(const Memory& a, const
 }
 
 std::vector<Chromosome> BrainUnit::derivePopulation(std::string output) {
+    // TODO: Properly check over effectiveness & function of following process:
     /*
      Steps:
      1. Compute tentative similarity between each memory and the respective output
@@ -94,7 +96,8 @@ std::vector<Chromosome> BrainUnit::derivePopulation(std::string output) {
 void BrainUnit::remember_(int memoryIndex) {
     memories[memoryIndex].foundationIndex += 1;
     normalizeFoundationIndexes();
-    save();
+    if (constants::IS_PERSISTANCE_MODE)
+        save();
 }
 
 void BrainUnit::remember(Memory memory) {

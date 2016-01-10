@@ -41,14 +41,7 @@ ChromosomePopulation::ChromosomePopulation() {
 ChromosomePopulation::ChromosomePopulation(std::vector<Chromosome> _memberPool, std::string _goal) {
     ChromosomePopulation();
     goal = _goal;
-    switch (constants::PREFERRED_LANGUAGE_INTERPRETER) {
-        case constants::LanguageInterpreterType::IntrepreterLanguageTypeIdentity:
-            fitnessHeuristic = FitnessHeuristic(Interpreter(), goal);
-            break;
-        default:
-            // Error - plus need to implement the rest.
-            break;
-    }
+    fitnessHeuristic = FitnessHeuristic(Interpreter(), goal);
     memberPool = _memberPool;
     if (memberPool.size() != constants::CHROMOSOME_POPULATION_POOL_SIZE) {
         randomlyFillPopulation();
@@ -95,8 +88,6 @@ void ChromosomePopulation::performNaturalSelection() {
     while (advanceGeneration()) {
         int numberSurvived = constants::CHROMOSOME_POPULATION_SURVIVE_RATE * memberPool.size();
         int numberCompeting = constants::CHROMOSOME_POPULATION_COMPETITION_RATE * memberPool.size();
-        if (memberPool.size() < numberSurvived)
-            return; // Error.
         std::vector<Chromosome> newMemberPool;
         std::vector<Chromosome> competitors;
         for (int i = 0; i < (numberSurvived + numberCompeting); i++) {

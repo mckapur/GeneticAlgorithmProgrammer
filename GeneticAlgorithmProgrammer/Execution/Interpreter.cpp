@@ -7,9 +7,10 @@
 //
 
 #include "Interpreter.hpp"
-#include "Constants.h"
+#include "BrainfuckInterpreter.cpp"
 
 #include <iostream>
+#include <stack>
 
 #pragma mark - Init
 
@@ -18,36 +19,14 @@ Interpreter::Interpreter() {
 
 #pragma mark - Input -> Output
 
-std::string Interpreter::outputFromProgram(std::string program) {
+std::string Interpreter::outputFromProgram(std::string program, constants::LanguageInterpreterType languageInterpreterType) {
     std::string output = "";
-    bool bracketOpen = false;
-    int plusCounter = 0;
-    for (int i = 0; i < program.size(); i++) {
-        if (program[i] == '(') {
-            if (bracketOpen)
-                break;
-            else {
-                bracketOpen = true;
-                plusCounter = 0;
-            }
-        }
-        else if (program[i] == ')') {
-            if (bracketOpen) {
-                bracketOpen = false;
-                output.push_back((char)(plusCounter));
-            }
-            else
-                break;
-        }
-        else if (program[i] == '+') {
-            if (bracketOpen)
-                plusCounter++;
-            else
-                break;
-        }
-        else {
-//            break;
-        }
+    switch (languageInterpreterType) {
+        case constants::IntrepreterLanguageTypeBrainfuck:
+            output = BrainfuckInterpreter::outputFromProgram(program);
+            break;
+        default:
+            break;
     }
     return output;
 }

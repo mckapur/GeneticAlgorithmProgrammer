@@ -16,7 +16,6 @@
 #include "ChromosomePopulation.hpp"
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
     srand(time(NULL));
     BrainUnit brain = BrainUnit();
     ChromosomePopulation population;

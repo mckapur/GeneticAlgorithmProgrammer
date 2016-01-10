@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <string>
 
+#include "Constants.h"
+
 /* An interface for any arbitrary language 
  interpreter to implement. This is for
  interpreting a string (as a program), and
@@ -20,7 +22,7 @@
 class Interpreter {
     public:
         Interpreter(); // Default initializer
-        virtual std::string outputFromProgram(std::string program); // Takes some input string as the program genome, and returns the output (if any, else null). Subclasses should override this. By default - this will be an identity interpreter.
+        std::string outputFromProgram(std::string program, constants::LanguageInterpreterType languageInterpreterType); // Takes some input string as the program genome with respect to some language (type) provided, and returns the output (if any, else null).
 };
 
 #endif /* Interpreter_cpp */

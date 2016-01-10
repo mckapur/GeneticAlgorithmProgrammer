@@ -55,5 +55,5 @@ double FitnessHeuristic::fitnessForChromosome(Chromosome chromosome, constants::
 #pragma mark - Input -> Output
 
 std::string FitnessHeuristic::outputForChromosome(Chromosome chromosome) {
-    return languageInterpreter.outputFromProgram(chromosome.genome);
+    return languageInterpreter.outputFromProgram(chromosome.genome, constants::PREFERRED_LANGUAGE_INTERPRETER);
 }
