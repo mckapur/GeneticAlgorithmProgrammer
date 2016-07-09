@@ -1,2 +1,2 @@
 # SourceCodeGenerationAI
-This is my primary research for my school IB Computer Science Extended Essay paper on "To what extent can modern Artificial Intelligence standards be used for source code generation?" (aka self writing code) and a larger research paper I am doing in general. The goal is to write programs using AI techniques/algorithms that can generate new code for some function. Once I am finished with the entire research paper, I will attach the link here.
+Code that evolves code
