@@ -12,6 +12,10 @@
 
 #pragma mark - Init
 
+bool Chromosome::operator<(const Chromosome& foe) const {
+    return genome < foe.genome;
+}
+
 Chromosome::Chromosome() {
     fitness = DBL_MAX; // Default
 }

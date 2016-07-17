@@ -14,19 +14,15 @@
 
 #pragma mark - Evolution Methods
 
-// TODO: Look at all non (32, 127) ASCII values, too!
-// TODO: Limit state space / use specific state space for specific interpreting language?
-// TODO: Look properly at random value [rand()] bounds/range implications
-
-Chromosome ChromosomePopulationProcesses::generateRandomChromosome(int preferredLength) {
+Chromosome ChromosomePopulationProcesses::generateRandomChromosome(std::string charset, int preferredLength) {
     std::string genome;
-    for (int i = 0; i < preferredLength; i++) {
-        genome.push_back(rand() % 96 + 32);
-    }
+    int charsetLength = charset.length();
+    for (int i = 0; i < preferredLength; i++)
+        genome.push_back(charset[rand() % charsetLength]);
     return Chromosome(genome);
 }
 
-std::vector<Chromosome> ChromosomePopulationProcesses::mateChromosomes(Chromosome chromosome1, Chromosome chromosome2) {
+std::vector<Chromosome> ChromosomePopulationProcesses::mateChromosomes(std::string charset, Chromosome chromosome1, Chromosome chromosome2) {
     std::vector<Chromosome> children;
     std::string parentGenome1 = chromosome1.genome;
     std::string parentGenome2 = chromosome2.genome;
@@ -38,7 +34,8 @@ std::vector<Chromosome> ChromosomePopulationProcesses::mateChromosomes(Chromosom
     return children;
 }
 
-Chromosome ChromosomePopulationProcesses::randomlyMutateChromosome(Chromosome chromosome) {
+Chromosome ChromosomePopulationProcesses::randomlyMutateChromosome(std::string charset, Chromosome chromosome) {
+    int charsetLength = charset.length();
     double randomState = ((double)rand()/(RAND_MAX));
     if (randomState > constants::POPULATION_POOL_MUTATE_PROBABILITY)
         return chromosome; // Random state says no to mutation
@@ -46,11 +43,9 @@ Chromosome ChromosomePopulationProcesses::randomlyMutateChromosome(Chromosome ch
     std::string genome = chromosome.genome;
     // TODO: Look over the accuracy of this code, and look over if addition/subtraction is a good idea
     if (randomState <= constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY) // Add a character
-        genome.push_back(rand() % 96 + 32); // Correct ASCII range
+        genome.push_back(charset[rand() % charsetLength]); // Correct ASCII range
     else if (randomState <= constants::POPULATION_POOL_MUTATE_REPETITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY) { // Repetition of a character
-        if (genome.size() < 2)
-            genome.push_back(rand() % 96 + 32); // Correct ASCII range
-        else
+        if (genome.size() >= 3)
             genome.insert(genome.begin() + rand() % genome.size(), genome[rand() % genome.size()]); // Mutation-by-repetition replicates a random character in the string and adds it at a random position in the genome
     }
     else if (randomState <= constants::POPULATION_POOL_MUTATE_SUBTRACTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_REPETITION_PROBABILITY && genome.size()) { // Remove a character
@@ -58,16 +53,12 @@ Chromosome ChromosomePopulationProcesses::randomlyMutateChromosome(Chromosome ch
     }
     else if (randomState <= constants::POPULATION_POOL_MUTATE_MODIFICATION_PROBABILITY + constants::POPULATION_POOL_MUTATE_SUBTRACTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_REPETITION_PROBABILITY && genome.size()) { // Modify a character
         int randomIndex = rand() % genome.size();
-        double directionProbability = ((double)rand()/(RAND_MAX));
-        int direction = 1;
-        if ((genome[randomIndex] > 32 && directionProbability < 0.5) || genome[randomIndex] == 127)
-            direction = -1;
-        genome[randomIndex] = genome[randomIndex] + direction;
+        genome[randomIndex] = charset[rand() % charsetLength];
     }
     else if (randomState <= constants::POPULATION_POOL_MUTATE_MODIFICATION_PROBABILITY + constants::POPULATION_POOL_MUTATE_SUBTRACTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_REPETITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_INSERTION_PROBABILITY && genome.size()) { // Insert a character
         int randomIndex = rand() % genome.size();
         std::string addition = "";
-        addition.push_back((char)(rand() % 96 + 32));
+        addition.push_back((char)charset[rand() % charsetLength]);
         genome.insert(randomIndex, addition);
     }
     else if (randomState <= constants::POPULATION_POOL_MUTATE_MODIFICATION_PROBABILITY + constants::POPULATION_POOL_MUTATE_SUBTRACTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_ADDITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_REPETITION_PROBABILITY + constants::POPULATION_POOL_MUTATE_INSERTION_PROBABILITY + constants::POPULATION_POOL_MUTATE_SWAP_PROBABILITY && genome.size()) { // Swap two characters

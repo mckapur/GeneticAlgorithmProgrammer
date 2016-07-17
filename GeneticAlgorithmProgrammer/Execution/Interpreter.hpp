@@ -11,18 +11,22 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
+#include <iostream>
 
 #include "Constants.h"
 
 /* An interface for any arbitrary language 
  interpreter to implement. This is for
  interpreting a string (as a program), and
- returning any results it outputs.
+ returning any results it outputs. You should
+ only instantiate subclasses of this class and
+ call methods on them.
  */
 class Interpreter {
     public:
-        Interpreter(); // Default initializer
-        std::string outputFromProgram(std::string program, constants::LanguageInterpreterType languageInterpreterType); // Takes some input string as the program genome with respect to some language (type) provided, and returns the output (if any, else null).
+        virtual std::string outputFromProgram(std::string program, std::vector<char> inputs) {return "";}; // Takes some input string as the program genome with respect to some inputs provided, and returns the output (if any, else null).
+        virtual std::string charset() {return "";}; // Gets all the code characters that are available in a given language
 };
 
 #endif /* Interpreter_cpp */

@@ -38,7 +38,7 @@ Memory::Memory(std::string stringContents) {
     }
     std::string foundationIndexString = stringContents.substr(0, delimeterPos); // LHS is the foundation index
     std::string chromosomeString = stringContents.substr(delimeterPos + 1, stringContents.length() - (delimeterPos + 1)); // RHS is the chromosome genome
-    foundationIndex = std::stof(foundationIndexString);
+    foundationIndex = std::stod(foundationIndexString);
     chromosome = Chromosome(chromosomeString);
 }
 

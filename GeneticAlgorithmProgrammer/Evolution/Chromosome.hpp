@@ -1,4 +1,4 @@
- //
+//
 //  Chromosome.hpp
 //  GeneticAlgorithmProgrammer
 //
@@ -25,10 +25,11 @@ class Chromosome {
     public:
         double fitness; // The fitness (cost) of the chromosome in the population
         std::string genome; // The data/value of the chromosome as an arbitrary string
-        std::string output; // The output of the genome interpreted by some arbitrary interpreter - a tentative/optional value
         
         Chromosome(); // The default initializer
         Chromosome(std::string _genome); // Initialize a new chromosome with a specified genome
+    
+        bool operator<(const Chromosome& foe) const;
 };
 
 #endif /* Chromosome_cpp */
